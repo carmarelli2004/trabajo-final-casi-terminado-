@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <section id="header">
+      <ion-title>
+        <h1>SABORES MATUTINOS</h1>
+      </ion-title>
+    </section>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <section>
+    <a *ngFor="let item of categorias"
+      [ngStyle]="{'background-image':'url('+item.imagen+')'}"
+      [routerLink]="['/productos',item.nombre]">
+      <span>{{item.nombre}}</span>
+    </a>
+  </section>
+</ion-content>

@@ -1,0 +1,89 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <section id="header">
+    <ion-title>
+        <h1>CARRITO</h1>
+    </ion-title>
+  </section>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Carrito</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <section id="fondo">
+    <ion-card-header>
+      <ion-card-title>Productos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list class="tarjetas">
+        <ion-item *ngFor="let item of cartService.carrito">
+          <ion-thumbnail slot="start">
+            <img alt="{{item.producto.nombre}}" src="{{item.producto.imagen}}" />
+          </ion-thumbnail>
+          <ion-label>{{item.producto.nombre}} {{item.cantidad}}</ion-label>
+          <ion-button [fill]="'clear'" (click)="cartService.eliminarProducto(item.producto.nombre)"><ion-icon name="trash-outline"></ion-icon></ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </section>
+  </ion-card>
+  
+  <ion-card>
+    <section id="fondo">
+    <ion-card-header>
+      <ion-card-title>Detalle entrega:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list [inset]="true" class="tarjetas">
+        <section id="fondo">
+        <ng-container *ngIf="perfilService.perfil(),else sinDatosEnvio">
+        <ion-item class="item-background-color">
+         <ion-label>Nombre y Apellido: {{perfilService.perfil()!.nombre}} </ion-label>
+        </ion-item>
+        <ion-item>
+         <ion-label>Direccion: {{perfilService.perfil()!.direccion}} </ion-label>
+        </ion-item>
+        <ion-item>
+         <ion-label>Telefono: {{perfilService.perfil()!.telefono}}</ion-label> 
+        </ion-item>
+        </ng-container>
+       </section>
+      <ng-template #sinDatosEnvio>
+        <p>Ingresa tus datos de envio</p>
+      </ng-template>
+      </ion-list>
+    </ion-card-content>
+  </section>
+  </ion-card>
+  
+  <ion-card>
+    <section id="fondo">
+    <ion-card-content>
+      <ion-list [inset]="true" class="tarjetas">
+        <ion-item>
+          <ion-label>Subtotal: $ {{cartService.subtotalCarrito}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Envio: </ion-label>
+        <ng-container *ngIf="perfilService.perfil(),else sinDatosEnvio">
+          <ion-label>${{cartService.envioCarrito}}</ion-label>
+        </ng-container>
+          </ion-item>
+        <ion-item>
+          <ion-label>Total: $ {{cartService.totalCarrito}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </section>
+  </ion-card>
+
+    <ion-button color="dark" fill="outline" shape="round" expand="block" (click)="realizarPedido()">Realizar pedido</ion-button>
+    <ion-button color="dark" fill="outline" shape="round" expand="block" (click)="cartService.vaciarCarrito()">Borrar carrito</ion-button>
+</ion-content>
